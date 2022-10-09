@@ -8,5 +8,6 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
-  ]
+  ],
+  "ignorePatterns": ["./twin/plugin.js"]
 }
