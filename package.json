@@ -43,9 +43,5 @@
   },
   "ct3aMetadata": {
     "initVersion": "6.1.0"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --cache --cache-location .next/cache/eslint/ --fix",
-    "*.{js,jsx,ts,tsx,css,md,json}": "prettier --write"
   }
 }
