@@ -7,15 +7,10 @@ const path = require('path');
 
 const t = babel.types;
 
-/**
- * @param {string} string
- */
-function convertToValidFilename(string) {
-  return string.replace(/[ &\/\\#,+()$~%.'":*?<>{}]/g, '');
-}
+const twinCachePath = path.join(process.cwd(), 'twin', 'cache.txt');
 
 /**
- * @returns {babel.PluginObj<babel.PluginPass & {twind: {classes: string[], validPath?: string}}>}
+ * @returns {babel.PluginObj<babel.PluginPass & {twind: {classes: string, }}>}
  */
 function twinPlugin() {
   return {
@@ -23,45 +18,34 @@ function twinPlugin() {
     visitor: {
       Program: {
         enter(_, state) {
-          const validFileName =
-            state.filename && convertToValidFilename(state.filename);
-          const validPath =
-            validFileName &&
-            path.join(process.cwd(), 'twin', 'cache', `${validFileName}.txt`);
           const twind = {
-            classes: [],
-            validPath,
+            classes: '',
           };
 
           state.twind = twind;
         },
         exit(_, state) {
-          if (state.twind.validPath) {
-            if (state.twind.classes.length > 0) {
-              fs.writeFileSync(
-                state.twind.validPath,
-                state.twind.classes.join(' '),
-                'utf8'
-              );
-            } else {
-              fs.unlinkSync(state.twind.validPath);
-            }
+          if (state.twind.classes.length > 0) {
+            fs.appendFileSync(twinCachePath, state.twind.classes, 'utf8');
           }
         },
       },
-      JSXAttribute(path, state) {
-        if (
-          path.node.name.name === 'className' &&
-          t.isStringLiteral(path.node.value)
-        ) {
-          const classes = expandGroups(path.node.value.value);
-          // @ts-ignore
-          state.twind.classes.push(classes);
-          path.node.value.value = classes;
+      TaggedTemplateExpression(path, state) {
+        if (t.isIdentifier(path.node.tag) && path.node.tag.name === 'tw') {
+          const classes = expandGroups(
+            path.node.quasi.quasis.map(q => q.value.raw).join(' ')
+          );
+          state.twind.classes += classes;
+          state.twind.classes += ' ';
+          path.replaceWith(t.stringLiteral(classes));
         }
       },
     },
   };
 }
 
-module.exports = twinPlugin();
+if (fs.existsSync(twinCachePath)) {
+  fs.unlinkSync(twinCachePath);
+}
+
+module.exports = twinPlugin;

@@ -7,7 +7,7 @@ import styles from './index.module.css';
 const Home: NextPage = () => {
   // const { data } = trpc.example.hello.useQuery({ text: 'from tRPC' });
 
-  return <h1 className="w(:hover(sm) md)">Works?</h1>;
+  return <h1 className={tw`border(2 black dashed)`}>Works?</h1>;
   // return (
   //   <>
   //     <Head>
