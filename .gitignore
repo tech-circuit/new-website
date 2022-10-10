@@ -39,4 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-twin/cache.txt
+twind/cache.txt

@@ -3,6 +3,6 @@
     "next/babel"
   ],
   "plugins": [
-    "./twin/plugin"
+    "./twind/plugin"
   ]
 }
