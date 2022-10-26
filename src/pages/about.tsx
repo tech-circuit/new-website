@@ -14,7 +14,7 @@ function Faq({ question, answer }: FaqProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={clsx('faq', isOpen && 'faq-toggle-active')}>
+    <div className={clsx('faq')}>
       <FaChevronDown
         className={clsx('faq-toggle', isOpen && 'faq-toggle-active')}
         onClick={() => setIsOpen(!isOpen)}
