@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "superjson": "1.9.1",
+    "tw-variants": "^0.1.1",
     "twind": "^0.16.17",
     "zod": "^3.18.0"
   },

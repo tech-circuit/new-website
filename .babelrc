@@ -3,6 +3,6 @@
     "next/babel"
   ],
   "plugins": [
-    "./twind/plugin"
+    "tw-variants/babel"
   ]
 }
